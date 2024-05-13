@@ -46,6 +46,29 @@ async function run() {
             res.send(query)
         })
 
+        //get all queries by user email
+        app.get('/queries/:email', async (req, res) => {
+            const email = req.params.email
+            const cursor = queriesCollection.find({ user_email: email })
+            const queries = await cursor.toArray()
+            res.send(queries)
+        })
+
+        // save query
+        app.post('/queries', async (req, res) => {
+            const query = req.body
+            const result = await queriesCollection.insertOne(query)
+            res.send(result)
+        })
+
+        // update query
+        app.put('/queries/:id', async (req, res) => {
+            const id = req.params.id
+            const updatedQuery = req.body
+            const result = await queriesCollection.updateOne({ _id: new ObjectId(id) }, { $set: updatedQuery })
+            res.send(result)
+        })
+
         // save recommendation
         app.post('/recommendations', async (req, res) => {
             const recommendation = req.body
