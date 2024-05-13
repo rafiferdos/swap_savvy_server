@@ -69,6 +69,13 @@ async function run() {
             res.send(result)
         })
 
+        // delete query
+        app.delete('/queries/:id', async (req, res) => {
+            const id = req.params.id
+            const result = await queriesCollection.deleteOne({ _id: new ObjectId(id) })
+            res.send(result)
+        })
+
         // save recommendation
         app.post('/recommendations', async (req, res) => {
             const recommendation = req.body
