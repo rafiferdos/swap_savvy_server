@@ -43,8 +43,16 @@ async function run() {
         app.get('/query_details/:id', async (req, res) => {
             const id = req.params.id
             const query = await queriesCollection.findOne({ _id: new ObjectId(id) })
-            console.log(query)
             res.send(query)
+        })
+
+        // save recommendation
+        app.post('/recommendations', async (req, res) => {
+            const recommendation = req.body
+            console.log(recommendation)
+            return
+            const result = await recommendationsCollection.insertOne(recommendation)
+            res.send(result)
         })
 
         await client.db("admin").command({ ping: 1 });
