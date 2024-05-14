@@ -79,8 +79,6 @@ async function run() {
         // save recommendation
         app.post('/recommendations', async (req, res) => {
             const recommendation = req.body
-            console.log(recommendation)
-            return
             const result = await recommendationsCollection.insertOne(recommendation)
             res.send(result)
         })
