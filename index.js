@@ -93,7 +93,16 @@ async function run() {
         // get all recommendations by user email
         app.get('/recommendations/:email', async (req, res) => {
             const email = req.params.email
-            const cursor = recommendationsCollection.find({ user_email: {$ne: email} })
+            // const cursor = recommendationsCollection.find({ user_email: {$ne: email} })
+            const cursor = recommendationsCollection.find({ user_email: email })
+            const recommendations = await cursor.toArray()
+            res.send(recommendations)
+        })
+
+        // get all recommendations by user email except the users post
+        app.get('/recommendations_forme/:email', async (req, res) => {
+            const email = req.params.email
+            const cursor = recommendationsCollection.find({ user_email: { $ne: email } })
             const recommendations = await cursor.toArray()
             res.send(recommendations)
         })
@@ -118,6 +127,21 @@ async function run() {
             const id = req.params.id
             const result = await recommendationsCollection.deleteOne({ _id: new ObjectId(id) })
             res.send(result)
+        })
+
+        // increment recommendation count by 1
+        app.put('/queries/:id/recommend', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) };
+            const update = { $inc: { recommendation_count: 1 } };
+
+            const result = await queriesCollection.updateOne(query, update);
+
+            if (result.modifiedCount === 1) {
+                res.sendStatus(200);
+            } else {
+                res.sendStatus(404);
+            }
         })
 
         // await client.db("admin").command({ ping: 1 });
