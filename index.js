@@ -83,6 +83,21 @@ async function run() {
             res.send(result)
         })
 
+        // get all recommendations
+        app.get('/recommendations', async (req, res) => {
+            const cursor = recommendationsCollection.find({})
+            const recommendations = await cursor.toArray()
+            res.send(recommendations)
+        })
+
+        // get all recommendations by user email
+        app.get('/recommendations/:email', async (req, res) => {
+            const email = req.params.email
+            const cursor = recommendationsCollection.find({ user_email: email })
+            const recommendations = await cursor.toArray()
+            res.send(recommendations)
+        })
+
         // save recommendation
         app.post('/recommendations', async (req, res) => {
             const recommendation = req.body
@@ -90,7 +105,7 @@ async function run() {
             res.send(result)
         })
 
-        await client.db("admin").command({ ping: 1 });
+        // await client.db("admin").command({ ping: 1 });
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
     } finally {
         // Ensures that the client will close when you finish/error
