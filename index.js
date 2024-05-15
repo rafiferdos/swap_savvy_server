@@ -98,10 +98,25 @@ async function run() {
             res.send(recommendations)
         })
 
+        // get all recommendations by query id
+        app.get('/recommendations/:id', async (req, res) => {
+            const id = req.params.id
+            const cursor = recommendationsCollection.find({ old_id: id })
+            const recommendations = await cursor.toArray()
+            res.send(recommendations)
+        })
+
         // save recommendation
         app.post('/recommendations', async (req, res) => {
             const recommendation = req.body
             const result = await recommendationsCollection.insertOne(recommendation)
+            res.send(result)
+        })
+
+        // delete recommendation by id
+        app.delete('/recommendations/:id', async (req, res) => {
+            const id = req.params.id
+            const result = await recommendationsCollection.deleteOne({ _id: new ObjectId(id) })
             res.send(result)
         })
 
