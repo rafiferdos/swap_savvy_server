@@ -93,7 +93,7 @@ async function run() {
         // get all recommendations by user email
         app.get('/recommendations/:email', async (req, res) => {
             const email = req.params.email
-            const cursor = recommendationsCollection.find({ user_email: email })
+            const cursor = recommendationsCollection.find({ user_email: {$ne: email} })
             const recommendations = await cursor.toArray()
             res.send(recommendations)
         })
