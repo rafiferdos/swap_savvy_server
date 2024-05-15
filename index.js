@@ -39,6 +39,13 @@ async function run() {
             res.send(queries)
         })
 
+        //get all queries data by time posted
+        // app.get('/queries_by_time', async (req, res) => {
+        //     const cursor = queriesCollection.find({}).sort({ createdAt: -1 });
+        //     const queries = await cursor.toArray();
+        //     res.send(queries);
+        // })
+
         //get query by id
         app.get('/query_details/:id', async (req, res) => {
             const id = req.params.id
