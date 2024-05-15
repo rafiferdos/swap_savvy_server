@@ -99,7 +99,7 @@ async function run() {
         })
 
         // get all recommendations by query id
-        app.get('/recommendations/:id', async (req, res) => {
+        app.get('/recommendations/id/:id', async (req, res) => {
             const id = req.params.id
             const cursor = recommendationsCollection.find({ old_id: id })
             const recommendations = await cursor.toArray()
