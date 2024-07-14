@@ -21,5 +21,4 @@ This repository contains the server-side code for the website. It complements th
 
 ## Contributors
 
-- [Your Name](https://github.com/your-username)
-- [Collaborator Name](https://github.com/collaborator-username)
+- [Rafi Ferdos](https://github.com/rafiferdos)
